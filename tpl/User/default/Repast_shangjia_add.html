@@ -1,0 +1,90 @@
+<if condition="$ischild neq 1">
+    <include file="Public:head" />
+    <else />
+    <include file="Repast:head" />
+</if>
+<link rel="stylesheet" type="text/css" href="{pigcms::RES}/css/cymain.css" />
+<script src="/tpl/static/artDialog/jquery.artDialog.js?skin=default"></script>
+<script src="/tpl/static/artDialog/plugins/iframeTools.js"></script>
+<div class="content">
+    <div class="cLineB">
+        <h4 class="left">关联商家</h4>
+        <div class="searchbar right">
+        </div>
+        <div class="clr"></div>
+    </div>
+
+    <form method="post" action="" id="formID">
+        <input type="hidden" name="id" value="{pigcms:$company.id}" />
+        <div class="msgWrap bgfc"> 
+            <table class="userinfoArea" style=" margin:0;" border="0" cellspacing="0" cellpadding="0" width="100%"> 
+                <tbody> 
+                    <tr> 
+                        <th><span class="red">*</span>选择商家：</th> 
+                        <td>
+                            <select name="cid">
+                                <volist name="shangjia" id="c"> 
+                                    <option value="{pigcms:$c.id}"  <if condition="$c.id eq $company['cid']">selected</if> >{pigcms:$c.name}</option>
+                                </volist>
+                            </select>
+                        </td> 
+                    </tr>
+                    <tr> 
+                        <th><span class="red">*</span>是否支持外卖：</th> 
+                        <td>
+                            <select name="istakeaway">
+                                <option value="0"  <if condition="0 eq $company['istakeaway']">selected</if> >不支持</option>
+                                <option value="1"  <if condition="1 eq $company['istakeaway']">selected</if> >支持</option>
+                            </select>
+                        </td> 
+                    </tr>
+                    <tr> 
+                        <th>外卖费：</th>
+                        <td><input type="text" name="price" value="{pigcms:$company.price}" class="px" id="pic" style="width:80px;" /> 元</td> 
+                    </tr>
+                    <tr> 
+                        <th>是否在线支付：</th>
+                        <td>
+                            <select name="payonline">
+                                <option value="0"  <if condition="0 eq $company['payonline']">selected</if> >不要</option>
+                                <option value="1"  <if condition="1 eq $company['payonline']">selected</if> >需要</option>
+                            </select>
+                        </td> 
+                    </tr>
+                    <tr> 
+                        <th>预订金：</th>
+                        <td><input type="text" name="subscription" value="{pigcms:$company.subscription}" class="px" id="subscription" style="width:80px;" /> 元</td> 
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td>
+                            <button type="submit" name="submit" class="btnGreen" id="save">保存</button></td> 
+                    </tr> 
+                </tbody> 
+            </table> 
+        </div>
+    </form>
+    <div class="cLine">
+        <div class="clr"></div>
+    </div>
+</div>
+
+<script>
+    function selectall(name) {
+        var checkItems = $('.cbitem');
+        if ($("#check_box").attr('checked') == false) {
+            $.each(checkItems, function(i, val) {
+                val.checked = false;
+            });
+
+        } else {
+            $.each(checkItems, function(i, val) {
+                val.checked = true;
+            });
+        }
+    }
+    function change(obj) {
+        location.href = "{pigcms::U('Repast/orders',array('token' => $token, 'cid' => $cid))}&status=" + $(obj).val();
+    }
+</script>
+<include file="Public:footer"/>
